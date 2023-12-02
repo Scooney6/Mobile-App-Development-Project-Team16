@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/DataPersistence.meta
 guid: dfd6b06733cf03f48abb0c981f7799d5
 folderAsset: yes
+========
+guid: e6d99aad7379a1d42a740a623d5f5247
+>>>>>>>> d879dc76dc07e06ac404925aa0ff5a7cf9a9e2f4:Assets/Dynamic First Person Mobile/Scenes/Sample Scene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
