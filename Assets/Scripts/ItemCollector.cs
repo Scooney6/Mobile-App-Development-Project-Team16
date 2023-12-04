@@ -46,16 +46,18 @@ public class ItemCollector : MonoBehaviour
 
         if (pages == 4)
         {
-            StartCoroutine(ActivateSlendermanWalk());
+            StartCoroutine(ActivateSlendermanRun());
+        }
+
+        if (pages == 6)
+        {
+            StartCoroutine(ChasePlayerWithSlenderman());
         }
     }
 
     IEnumerator ActivateSlenderman()
     {
-        if (slendermanAppearSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(slendermanAppearSound);
-        }
+        PlaySlendermanAppearSound();
 
         Vector3 spawnPosition = playerTransform.position + playerTransform.forward * 4f;
         Quaternion targetRotation = Quaternion.LookRotation(playerTransform.position - spawnPosition);
@@ -67,8 +69,10 @@ public class ItemCollector : MonoBehaviour
         slendermanActivated = false;
     }
 
-    IEnumerator ActivateSlendermanWalk()
+    IEnumerator ActivateSlendermanRun()
     {
+        PlaySlendermanAppearSound();
+
         Vector3 spawnPosition = playerTransform.position + playerTransform.forward * 4f;
         Quaternion targetRotation = Quaternion.LookRotation(playerTransform.position - spawnPosition);
 
@@ -77,15 +81,38 @@ public class ItemCollector : MonoBehaviour
         Animator slendermanAnimator = slendermanInstance.GetComponent<Animator>();
         if (slendermanAnimator != null)
         {
-            slendermanAnimator.Play("Walk");
+            slendermanAnimator.Play("Scream");
         }
 
-        Vector3 direction = (playerTransform.position - spawnPosition).normalized;
+        yield return new WaitForSeconds(8f);
 
-        float elapsedTime = 0f;
-        while (elapsedTime < 8f)
+        Destroy(slendermanInstance);
+    }
+
+    IEnumerator ChasePlayerWithSlenderman()
+    {
+        PlaySlendermanAppearSound();
+
+        Vector3 spawnPosition = playerTransform.position + playerTransform.forward * 4f;
+        Quaternion targetRotation = Quaternion.LookRotation(playerTransform.position - spawnPosition);
+
+        slendermanInstance = Instantiate(slendermanPrefab, spawnPosition, targetRotation);
+
+        Animator slendermanAnimator = slendermanInstance.GetComponent<Animator>();
+        if (slendermanAnimator != null)
         {
-            slendermanInstance.transform.Translate(direction * Time.deltaTime);
+            slendermanAnimator.Play("Run");
+        }
+
+        float chaseDuration = 20f; // Slenderman chases player for 20 seconds
+        float elapsedTime = 0f;
+        while (elapsedTime < chaseDuration)
+        {
+            Vector3 targetDirection = (playerTransform.position - slendermanInstance.transform.position).normalized;
+            Vector3 newDirection = Vector3.RotateTowards(slendermanInstance.transform.forward, targetDirection, 5f * Time.deltaTime, 0.0f);
+            slendermanInstance.transform.rotation = Quaternion.LookRotation(newDirection);
+
+            slendermanInstance.transform.Translate(slendermanInstance.transform.forward * Time.deltaTime * 3f); 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -98,6 +125,14 @@ public class ItemCollector : MonoBehaviour
         if (thirdPageCollectSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(thirdPageCollectSound);
+        }
+    }
+
+    private void PlaySlendermanAppearSound()
+    {
+        if (slendermanAppearSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(slendermanAppearSound);
         }
     }
 }
