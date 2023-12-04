@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ItemCollector : MonoBehaviour
 {
+    [SerializeField]
+    private float slendermanRunSpeed = 3f; 
+
     private int pages = 0;
     public GameObject slendermanPrefab;
     private GameObject slendermanInstance;
@@ -112,7 +115,7 @@ public class ItemCollector : MonoBehaviour
             Vector3 newDirection = Vector3.RotateTowards(slendermanInstance.transform.forward, targetDirection, 5f * Time.deltaTime, 0.0f);
             slendermanInstance.transform.rotation = Quaternion.LookRotation(newDirection);
 
-            slendermanInstance.transform.Translate(slendermanInstance.transform.forward * Time.deltaTime * 3f); 
+            slendermanInstance.transform.Translate(slendermanInstance.transform.forward * Time.deltaTime * slendermanRunSpeed); 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
