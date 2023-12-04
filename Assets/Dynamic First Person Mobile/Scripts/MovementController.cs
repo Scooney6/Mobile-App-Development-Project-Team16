@@ -7,7 +7,7 @@ namespace FirstPersonMobileTools.DynamicFirstPerson
     [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(CameraLook))]
-    public class MovementController : MonoBehaviour {
+    public class MovementController : MonoBehaviour, IDataPersistence {
         
     #region Class accessible field
         [HideInInspector] public bool Input_Sprint { get; set; }    // Accessed through [Sprint button] in the scene
@@ -108,6 +108,16 @@ namespace FirstPersonMobileTools.DynamicFirstPerson
     #if UNITY_EDITOR
         public Vector2 External_Input_Movement;
     #endif
+
+        public void LoadData(GameData data) {
+            transform.position = data.playerPosition;
+            Debug.Log("Loaded player position: " + transform.position);
+        }
+
+        public void SaveData(GameData data) {
+            data.playerPosition = transform.position;
+            Debug.Log("Saved player position: " + data.playerPosition);
+        }
 
 
         private void Start() 

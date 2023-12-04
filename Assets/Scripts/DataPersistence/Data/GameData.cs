@@ -16,7 +16,7 @@ public class GameData
     public GameData() 
     {
         slenderPosition = Vector3.zero;
-        playerPosition = Vector3.zero;
+        playerPosition = new Vector3(52.5f, 6f, 66f);
         objectivesCollected = new SerializableDictionary<string, bool>();
         playerAttributesData = new AttributesData();
     }
