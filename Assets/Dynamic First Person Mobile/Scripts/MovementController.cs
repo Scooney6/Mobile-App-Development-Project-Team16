@@ -294,8 +294,8 @@ namespace FirstPersonMobileTools.DynamicFirstPerson
         // Utility function
         private void PlaySound(AudioClip audioClip)
         {
-            m_AudioSource.clip = audioClip;
-            if (m_AudioSource.clip != null) m_AudioSource.PlayOneShot(m_AudioSource.clip);
+            //m_AudioSource.clip = audioClip;
+            //if (m_AudioSource.clip != null) m_AudioSource.PlayOneShot(m_AudioSource.clip);
         }
 
     }

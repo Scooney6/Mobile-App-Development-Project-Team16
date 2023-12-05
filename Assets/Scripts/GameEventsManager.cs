@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEventsManager : MonoBehaviour
 {
+    public GameObject gameWinUI;
     public static GameEventsManager instance { get; private set; }
 
     private void Awake()
@@ -31,4 +33,20 @@ public class GameEventsManager : MonoBehaviour
             onObjectiveCollected();
         }
     }
+
+    public void gameWin() {
+        gameWinUI.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadMainMenu()
+    {
+        // Load the main menu scene
+        SceneManager.LoadScene("MainMenu"); // Replace "MainMenuScene" with the actual scene name
+    }
+
 }
